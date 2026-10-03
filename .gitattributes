@@ -1,3 +1,2 @@
-# Preserve supplied coursework bytes and original whitespace conventions.
-coursework/** -text -whitespace
-cvportfolio/course_utils/** -text -whitespace
+assignment*/** -text -whitespace
+showcase/cvportfolio/course_utils/** -text -whitespace

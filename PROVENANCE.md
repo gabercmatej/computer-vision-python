@@ -1,14 +1,14 @@
 # Implementation & provenance
 
-This portfolio starts with Matej Gaberc's six Python submissions for **Umetno zaznavanje (Machine Perception)**. The source snapshots in `coursework/` are preserved byte-for-byte from the supplied files. Course PDFs, helper modules and example datasets are included as reference material, with their original authorship retained.
+This portfolio starts with Matej Gaberc's six Python submissions for **Umetno zaznavanje (Machine Perception)**. The source snapshots in `assignment1/` … `assignment6/` are preserved byte-for-byte from the supplied files. Course PDFs, helper modules and example datasets are included as reference material, with their original authorship retained.
 
 ## Three layers
 
 | Layer | Purpose | Authorship / role |
 |---|---|---|
-| `coursework/` | Original scripts, assignment briefs, utilities and data | Matej's submissions alongside supplied course materials |
-| `cvportfolio/` | Selected algorithms extracted into importable modules, corrected and checked | Adapted from the submissions; portfolio refactoring and fixes prepared with Codex assistance |
-| `docs/` | Visual explorer, real figures and measured outputs | Portfolio presentation added with Codex assistance |
+| `assignment1/` … `assignment6/` | Original scripts, assignment briefs, utilities and data | Matej's submissions alongside supplied course materials |
+| `showcase/cvportfolio/` | Selected algorithms extracted into importable modules, corrected and checked | Adapted from the submissions; portfolio refactoring and fixes prepared with Codex assistance |
+| `showcase/site/` | Visual explorer, real figures and measured outputs | Portfolio presentation added with Codex assistance |
 
 The viewer does not run Python in the browser. It selects saved Python outputs, including four edge thresholds and six PCA component counts. The alignment slider compares two images in a common coordinate frame. The 3D animation is rendered from actual triangulated coordinates.
 
@@ -16,7 +16,7 @@ The viewer does not run Python in the browser. It selects saved Python outputs, 
 
 - **NumPy implementations:** normalized histograms, padded 1D convolution, median filtering, histogram distances, image derivatives using separable kernels, non-maximum suppression, Hough voting, feature matching, DLT homography estimation, RANSAC, normalized eight-point estimation, rank-two projection, linear triangulation and dual PCA.
 - **OpenCV operations:** image decoding/color conversion, primitive filtering, connected components, morphology, local-max dilation and geometric image warping. Course helper functions also use OpenCV filtering.
-- **Supplied helpers:** local descriptors and convolution helper from `a4_utils.py`; point normalization and correspondence reader from `a5_utils.py`. Copies are isolated under `cvportfolio/course_utils/` and retain their code.
+- **Supplied helpers:** local descriptors and convolution helper from `a4_utils.py`; point normalization and correspondence reader from `a5_utils.py`. Copies are isolated under `showcase/cvportfolio/course_utils/` and retain their code.
 - **Matplotlib/Pillow:** figures and the rotating 3D GIF.
 - **HTML/CSS/JavaScript:** responsive results explorer; no service or database required.
 
@@ -24,9 +24,9 @@ The phrase “implemented” here does not imply inventing these established alg
 
 ## Scope of the reproducible showcase
 
-The generator demonstrates selected representative exercises from every assignment. It does **not** execute every optional exercise or claim that every original script is production-ready. The unchanged scripts retain their original relative paths, commented plots, experimental alternatives and known limitations. Run the curated generator for a supported end-to-end experience.
+The generator provides a result plate for each of the 18 main exercises, plus selected additional experiments. It does **not** execute every optional exercise or claim that every original script is production-ready. The unchanged scripts retain their original relative paths, commented plots, experimental alternatives and known limitations. Run the curated generator for a supported end-to-end experience.
 
-The original video stabilization and webcam examples are preserved as coursework. They are not advertised as verified live demos: their video/personal-image inputs were not supplied. Missing brightness variants in Assignment 1 are likewise not needed by the curated showcase.
+The original video stabilization and webcam examples are preserved as coursework. They are not advertised as verified live demos: their video/personal-image inputs were not supplied. Missing brightness variants in Assignment 1 are replaced by explicitly labeled derived exposures in its histogram illustration.
 
 ## Reading the measurements
 

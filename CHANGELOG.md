@@ -1,6 +1,6 @@
 # Portfolio preparation
 
-The original course files remain unchanged in `coursework/`. The curated `cvportfolio/` modules select reusable functions and remove top-level data loading, plotting and interactive side effects.
+The original course files remain unchanged in `assignment1/` … `assignment6/`. The curated `showcase/cvportfolio/` modules select reusable functions and remove top-level data loading, plotting and interactive side effects.
 
 ## Correctness improvements in curated modules
 
@@ -21,3 +21,10 @@ The original course files remain unchanged in `coursework/`. The curated `cvport
 - Numerical regression tests, asset validation and a GitHub Actions workflow that regenerates every experiment.
 
 Original known limitations are deliberately retained in the archive, including the misspelled coin threshold variable, experimental disparity direction logic, disabled displays and absent optional personal inputs. Use `python -m cvportfolio.generate` for the checked portfolio path.
+
+## Assignment-first presentation
+
+- Promoted all six original assignment folders to the repository root, preserving supplied file bytes. Grouped the runnable portfolio under `showcase/`.
+- Added walkthroughs and computed figures for all 18 main exercises, plus additional experiments. Original optional/partial work is identified in each detailed assignment README.
+- Corrected the displayed NCC search to include zero disparity and the valid upper boundary.
+- New illustrative plates use full convolution for associativity, explicit coin threshold 0.9, repeated-index-safe circle voting, and total-variance normalization for point PCA. These adaptations do not alter the original submissions.

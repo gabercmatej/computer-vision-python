@@ -1,139 +1,239 @@
 # Computer Vision in Python
 
-### Pixels. Patterns. Python.
+**Matej Gaberc · Machine Perception / Umetno zaznavanje**
 
-**Six investigations into how images become structure.** Image processing, retrieval, edge detection, geometric alignment, 3D reconstruction and PCA, implemented with Python, NumPy and OpenCV.
+Six Python assignments covering image processing, feature extraction, geometric reconstruction and dimensionality reduction. Each section below gives a quick overview, working solution results, and an interactive showcase.
 
-**[Open the interactive showcase ↗](https://gabercmatej.github.io/computer-vision-python/) · [Explore the source](cvportfolio/) · [Original coursework](coursework/) · [Run the experiments](#run-it-yourself) · [Implementation notes](PROVENANCE.md)**
+[Assignment 1](#assignment-1) · [Assignment 2](#assignment-2) · [Assignment 3](#assignment-3) · [Assignment 4](#assignment-4) · [Assignment 5](#assignment-5) · [Assignment 6](#assignment-6)
 
-![Computer Vision in Python visual portfolio](docs/screenshots/overview.png)
+The original Python submissions and PDFs are in the six assignment folders. Result figures were regenerated from the coursework using the runnable adaptations in [showcase/](showcase/README.md); they are not historical screenshots. [Implementation notes and corrections](PROVENANCE.md).
 
-I'm **Matej Gaberc**, a multimedia student building software, AI integrations and business automations. This repository presents my work from **Umetno zaznavanje (Machine Perception)**: implementing algorithms, working with numerical data and making the output understandable.
+## Assignment 1
 
-The original assignments are preserved alongside a reproducible experiment runner and an interactive results viewer. Every figure below is generated from Python calculations on the supplied course data.
+### Image processing, histograms & morphology
 
-## Start with these three
+**Quick summary.** Images become arrays: manipulate pixels, measure intensity distributions, and separate foreground regions.
 
-### Align two views of the same scene
+- **Basic image processing:** Load RGB images, compute grayscale from channel means, inspect a green-channel crop, invert a rectangular patch and reduce the intensity range. Array slicing and broadcasting let the same operation act on thousands of pixels.
+- **Thresholding & histograms:** Implement threshold masks in two ways and build a normalized histogram with configurable bins. Compare exposure distributions, then select a foreground threshold with Otsu’s between-class criterion.
+- **Morphology & connected components:** Implement erosion and dilation experiments, clean a bird mask, apply it to RGB channels, invert an eagle mask and filter coin-image connected components by area. Morphology changes local shape; component analysis selects whole regions.
 
-Harris feature points, symmetric descriptor matching and a custom RANSAC loop feed a normalized DLT homography estimator. The result is checked by projecting matched points into the second image.
+[Original Python](assignment1/assigment1.py) · [Assignment PDF](assignment1/instructions.pdf) · [Detailed walkthrough](assignment1/README.md)
 
-![Feature matching, RANSAC inliers and geometric alignment](docs/assets/04-homography.png)
+### Working solution results
 
-**15 of 16 candidate matches retained · 0.52 px median inlier error · 1,000 RANSAC iterations**
+**1.1 Basic image processing**
 
-These are measurements for the included New York pair, not a general accuracy benchmark. [Python implementation →](cvportfolio/features.py)
+![1.1 Basic image processing](showcase/site/assets/01-pixels.png)
 
-### Recover 3D structure from two images
+**1.2 Thresholding & histograms**
 
-A normalized eight-point algorithm estimates epipolar geometry. Linear triangulation uses the supplied camera matrices and corresponding points to recover a sparse model of a house.
+![1.2 Thresholding & histograms](showcase/site/assets/01-histograms.png)
 
-![Rotating view of the actual triangulated house coordinates](docs/assets/house-rotation.gif)
+**1.3 Morphology & connected components**
 
-**168 reconstructed points · 0.207 px mean camera reprojection error**
+![1.3 Morphology & connected components](showcase/site/assets/01-morphology.png)
 
-The input correspondences and camera calibration are supplied by the course dataset. [Python implementation →](cvportfolio/geometry.py)
+**Bird segmentation & foreground masking**
 
-### Reconstruct a face with fewer dimensions
+![Bird segmentation & foreground masking](showcase/site/assets/01-processing.png)
 
-Dual PCA learns directions of variation from 64 images. The viewer lets you compare reconstructions with 1, 2, 4, 8, 16 or 32 components.
+### Interactive showcase
 
-![Interactive PCA explorer with original and reconstructed face](docs/screenshots/experiment-6.png)
+**[Open Assignment 1 →](https://gabercmatej.github.io/computer-vision-python/#study-1)**
 
-**8,064 pixels per image · 63 nonzero components · 95.87% training-set variance retained with 8 components**
+Compare the full segmentation pipeline with its extracted foreground. The task gallery also lets you browse every result shown above.
 
-This is training-image reconstruction, not a held-out face recognition score. [Python implementation →](cvportfolio/pca.py)
+---
 
-## All six studies
+## Assignment 2
 
-| Study | Concepts implemented in the coursework | Curated result |
-|---|---|---|
-| **01 · Image processing** | Array manipulation, normalized histograms, thresholding, masks, morphology and connected regions | [Foreground extraction & histogram](docs/assets/01-processing.png) |
-| **02 · Filtering & retrieval** | Convolution, Gaussian and median filters, RGB histograms, L2 / χ² / intersection / Hellinger distances | [Noise removal](docs/assets/02-filtering.png) · [120-image retrieval](docs/assets/02-retrieval.png) |
-| **03 · Edges & Hough** | Gaussian derivatives, gradients, non-maximum suppression, hysteresis, line and circle voting | [Edges & line hypotheses](docs/assets/03-edges.png) |
-| **04 · Matching & alignment** | Harris/Hessian features, symmetric matching, RANSAC, homography, image warping; optional stabilization code | [Correspondences & alignment](docs/assets/04-homography.png) |
-| **05 · Stereo & 3D** | NCC disparity, fundamental matrix, epipolar distances, rank constraint, triangulation | [Sparse 3D reconstruction](docs/assets/05-stereo.png) |
-| **06 · PCA & eigenfaces** | Direct/dual PCA, projection, reconstruction, explained variance; optional webcam example | [Reconstruction](docs/assets/06-pca.png) · [Eigenfaces](docs/assets/06-eigenfaces.png) |
+### Convolution, filtering & image retrieval
 
-The curated runner demonstrates selected exercises from every assignment. Original optional experiments are retained for inspection and are not all part of the verified showcase.
+**Quick summary.** Build local signal operators, compare noise-removal filters, and search an image collection with compact color descriptions.
 
-## What this demonstrates
+- **1D convolution:** Write convolution and boundary handling, generate normalized Gaussian kernels for several scales, and explore how composing kernels changes a signal. A kernel slides over neighboring samples and forms a weighted sum.
+- **Image filtering:** Apply separable Gaussian filtering to noisy images, sharpen with a custom kernel, compare 1D median windows and implement a 2D median filter. Median filtering rejects isolated impulses while Gaussian averaging smooths both noise and detail.
+- **Global descriptors & retrieval:** Build an 8 × 8 × 8 RGB histogram, implement L2, chi-square, intersection and Hellinger distances, rank a 120-image collection, inspect sorted distances and weight frequent colors less strongly.
 
-- **Numerical Python:** shapes, dtypes, vectorization, matrix operations, eigendecomposition and SVD.
-- **Algorithm implementation:** turning mathematical definitions into inspectable functions instead of hiding every step behind a high-level estimator.
-- **Practical computer vision:** working with noisy images, ambiguous matches, outliers and coordinate systems.
-- **Verification:** analytical examples with known answers, regression checks and explicit limits on what each result establishes.
-- **Communication:** visual results, source links, measured outputs and reproducible instructions.
+[Original Python](assignment2/assigment2.py) · [Assignment PDF](assignment2/assignment2_instructions.pdf) · [Detailed walkthrough](assignment2/README.md)
 
-OpenCV handles image I/O, primitive filtering, morphology and warping; supplied course helpers provide descriptors and point normalization. The detailed division is documented in [PROVENANCE.md](PROVENANCE.md).
+### Working solution results
 
-## Run it yourself
+**2.1 1D convolution**
 
-Use Python **3.12 or newer**. From the repository root:
+![2.1 1D convolution](showcase/site/assets/02-convolution.png)
 
-```bash
-git clone https://github.com/gabercmatej/computer-vision-python.git
-cd computer-vision-python
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
-python -m cvportfolio.generate
-```
+**2.2 Image filtering**
 
-On Windows, activate with `.venv\Scripts\activate` instead. The headless OpenCV dependency supports the curated generator; optional original webcam/video windows require a GUI-enabled OpenCV environment.
+![2.2 Image filtering](showcase/site/assets/02-filtering.png)
 
-Generate only one study:
+**2.3 Global descriptors & retrieval**
 
-```bash
-python -m cvportfolio.generate --only 4
-```
+![2.3 Global descriptors & retrieval](showcase/site/assets/02-retrieval.png)
 
-A complete run writes the shared metrics manifest; use a complete run after algorithm changes to keep the viewer's figures and measurements synchronized.
+**Sharpening comparison**
 
-Open the viewer:
+![Sharpening comparison](showcase/site/assets/02-sharpening.png)
 
-```bash
-python -m http.server 8000 --directory docs
-```
+**Four distance functions & frequency weighting**
 
-Then open **http://localhost:8000**. The static viewer explores precomputed results; it does not run Python in the browser. It also works by opening `docs/index.html` directly, though browser clipboard access may be restricted.
+![Four distance functions & frequency weighting](showcase/site/assets/02-distances.png)
 
-## Verify the work
+### Interactive showcase
 
-```bash
-python -m unittest discover -s tests -v
-python -m cvportfolio.generate
-python scripts/check_assets.py
-```
+**[Open Assignment 2 →](https://gabercmatej.github.io/computer-vision-python/#study-2)**
 
-The **16 numerical tests** cover convolution, histogram normalization/distances, deterministic thresholding, edge connectivity and directions, spatial feature suppression, empty matches, homography recovery and degeneracy, seeded RANSAC outlier rejection, epipolar geometry, triangulation, and PCA orthonormality/reconstruction.
+Switch between noise removal and image retrieval. The task gallery also lets you browse every result shown above.
 
-GitHub Actions runs the tests and regenerates all six studies on Python 3.12. The checked-in outputs were generated on Python 3.14; exact library versions and all metrics are recorded in [metrics.json](docs/assets/metrics.json). Small floating-point or rendering differences across environments are expected.
+---
 
-## Repository map
+## Assignment 3
 
-```text
-coursework/           Original submissions, assignment PDFs, helpers and datasets
-cvportfolio/          Importable algorithms adapted from the submissions
-  course_utils/       Attributed course-provided helpers
-  generate.py         Six result-generation routines
-  processing.py       Histograms, Otsu threshold and masking
-  filters.py          Convolution, filtering and histogram comparison
-  edges.py            Derivatives, edge extraction and Hough voting
-  features.py         Feature matching, normalized DLT and RANSAC
-  geometry.py         Epipolar geometry and triangulation
-  pca.py              Dual PCA
-tests/               Numerical checks with known expected results
-docs/                Static interactive showcase
-  assets/             Python-generated figures, animation and numeric metrics
-  screenshots/        Actual desktop/mobile screenshots of the viewer
-scripts/             Asset and manifest validation
-```
+### Derivatives, edges & the Hough transform
 
-## Notes & credits
+**Quick summary.** Progress from local intensity changes to thin edges and geometric line or circle hypotheses.
 
-The reusable modules, correctness fixes, tests and portfolio interface were prepared with Codex assistance. The original student scripts remain separately available so the coursework and later presentation work can be inspected independently. See [changes](CHANGELOG.md), [provenance](PROVENANCE.md) and [course material credits](ATTRIBUTION.md).
+- **Image derivatives:** Construct Gaussian derivative filters, inspect impulse responses, calculate first and second image derivatives, and derive gradient magnitude and orientation. Also implement an 8 × 8 spatial grid with 8 orientation bins: a 512-dimensional gradient descriptor.
+- **Edge detection:** Threshold gradient magnitude, suppress responses across the gradient direction, then use connected-component hysteresis to retain weak edges linked to strong ones. Each step removes a different kind of ambiguity.
+- **Hough voting:** Implement line-parameter accumulators, threshold peaks, suppress neighboring maxima and draw strong line hypotheses on images. Extend voting to circle centers when the radius is known.
 
-Course PDFs, helpers and datasets retain their original authorship; no blanket license is applied to third-party materials.
+[Original Python](assignment3/assigment3.py) · [Assignment PDF](assignment3/assignment3_instructions.pdf) · [Detailed walkthrough](assignment3/README.md)
 
-**[More projects by Matej Gaberc →](https://github.com/gabercmatej)**
+### Working solution results
+
+**3.1 Image derivatives**
+
+![3.1 Image derivatives](showcase/site/assets/03-derivatives.png)
+
+**3.2 Edge detection**
+
+![3.2 Edge detection](showcase/site/assets/03-thinning.png)
+
+**3.3 Hough voting**
+
+![3.3 Hough voting](showcase/site/assets/03-edges.png)
+
+**Known-radius circle detection**
+
+![Known-radius circle detection](showcase/site/assets/03-circles.png)
+
+### Interactive showcase
+
+**[Open Assignment 3 →](https://gabercmatej.github.io/computer-vision-python/#study-3)**
+
+Move the edge threshold slider across four computed settings. The task gallery also lets you browse every result shown above.
+
+---
+
+## Assignment 4
+
+### Feature detection, matching & homography
+
+**Quick summary.** Find distinctive points, match local descriptions across views, and estimate an image alignment despite outliers.
+
+- **Hessian & Harris detectors:** Calculate second-derivative and structure-tensor responses, select strong locations and compare detector behavior at different scales. Hessian responses emphasize blob-like structure; Harris responses emphasize variation in two directions.
+- **Local descriptor matching:** Compare supplied local descriptors using Hellinger distance, first with one-way nearest neighbors and then with a mutual-match check. This removes pairs that do not agree in both directions. The source also contains video stabilization experiments.
+- **Homography & RANSAC:** Estimate a projective transform with DLT, align supplied point pairs, explore line-fitting RANSAC, reject feature-match outliers, measure reprojection error and implement inverse nearest-neighbor warping.
+
+[Original Python](assignment4/assigment4.py) · [Assignment PDF](assignment4/assignment4_instructions.pdf) · [Detailed walkthrough](assignment4/README.md)
+
+### Working solution results
+
+**4.1 Hessian & Harris detectors**
+
+![4.1 Hessian & Harris detectors](showcase/site/assets/04-detectors.png)
+
+**4.2 Local descriptor matching**
+
+![4.2 Local descriptor matching](showcase/site/assets/04-matches.png)
+
+**4.3 Homography & RANSAC**
+
+![4.3 Homography & RANSAC](showcase/site/assets/04-homography.png)
+
+### Interactive showcase
+
+**[Open Assignment 4 →](https://gabercmatej.github.io/computer-vision-python/#study-4)**
+
+Drag the alignment comparison slider and inspect matched points. The task gallery also lets you browse every result shown above.
+
+---
+
+## Assignment 5
+
+### Disparity, epipolar geometry & triangulation
+
+**Quick summary.** Use the relationship between two views to estimate pixel displacement and recover sparse 3D structure.
+
+- **Disparity from stereo images:** Explore the inverse relationship between depth and disparity, implement normalized cross-correlation patch matching, and experiment with consistency filtering, median smoothing and disparity-based warping.
+- **Fundamental matrix:** Build the normalized eight-point system, solve it with SVD, enforce rank two, draw epipolar lines and calculate symmetric point-to-line distances. A point in one image restricts its match to a line in the other.
+- **Linear triangulation:** Stack camera projection constraints and solve for each homogeneous 3D point with SVD. Visualize the recovered house and experiment with fundamental-matrix RANSAC before triangulation.
+
+[Original Python](assignment5/assigment5.py) · [Assignment PDF](assignment5/assignment5_instructions.pdf) · [Detailed walkthrough](assignment5/README.md)
+
+### Working solution results
+
+**5.1 Disparity from stereo images**
+
+![5.1 Disparity from stereo images](showcase/site/assets/05-disparity.png)
+
+**5.2 Fundamental matrix**
+
+![5.2 Fundamental matrix](showcase/site/assets/05-epipolar.png)
+
+**5.3 Linear triangulation**
+
+![5.3 Linear triangulation](showcase/site/assets/05-stereo.png)
+
+### Interactive showcase
+
+**[Open Assignment 5 →](https://gabercmatej.github.io/computer-vision-python/#study-5)**
+
+Rotate the reconstructed 3D house and inspect the two input views. The task gallery also lets you browse every result shown above.
+
+---
+
+## Assignment 6
+
+### PCA, dimensionality reduction & eigenfaces
+
+**Quick summary.** Learn directions of variation, compress observations, and reconstruct faces from a small set of coefficients.
+
+- **Direct PCA:** Compute the mean, covariance and eigenvectors; draw principal directions; project points onto one component; compare nearest neighbors before and after projection; select components retaining 80% of variance in 50D data.
+- **Dual PCA:** Decompose the sample-space covariance matrix, map its eigenvectors back to feature space, compare nonzero eigenvalues with direct PCA and reconstruct the original points. This is useful when there are many more pixels than training images.
+- **Face-space decomposition:** Load faces as columns, compute eigenfaces, reconstruct images, compare pixel edits with coefficient edits, sweep component counts, vary the first two coefficients and project an elephant image into face space. A webcam-recognition example is also preserved.
+
+[Original Python](assignment6/exercise6.py) · [Assignment PDF](assignment6/assignment6_instructions.pdf) · [Detailed walkthrough](assignment6/README.md)
+
+### Working solution results
+
+**6.1 Direct PCA**
+
+![6.1 Direct PCA](showcase/site/assets/06-point-pca.png)
+
+**6.2 Dual PCA**
+
+![6.2 Dual PCA](showcase/site/assets/06-dual-pca.png)
+
+**6.3 Face-space decomposition**
+
+![6.3 Face-space decomposition](showcase/site/assets/06-pca.png)
+
+**Learned eigenfaces**
+
+![Learned eigenfaces](showcase/site/assets/06-eigenfaces.png)
+
+### Interactive showcase
+
+**[Open Assignment 6 →](https://gabercmatej.github.io/computer-vision-python/#study-6)**
+
+Change the number of PCA components and compare face reconstructions. The task gallery also lets you browse every result shown above.
+
+---
+
+## Run the code
+
+Original scripts, PDFs and supplied data live in `assignment1/` through `assignment6/`. The interactive website, reusable adaptations, figure generators and tests are grouped under **[showcase/](showcase/README.md)**.
+
+[Setup and reproduction](showcase/README.md) · [Provenance](PROVENANCE.md) · [Corrections](CHANGELOG.md) · [Course-material credits](ATTRIBUTION.md)
