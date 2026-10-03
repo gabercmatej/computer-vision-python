@@ -4,7 +4,7 @@
 
 **Six investigations into how images become structure.** Image processing, retrieval, edge detection, geometric alignment, 3D reconstruction and PCA, implemented with Python, NumPy and OpenCV.
 
-**[Explore the source](cvportfolio/) · [Original coursework](coursework/) · [Run the experiments](#run-it-yourself) · [Implementation notes](PROVENANCE.md)**
+**[Open the interactive showcase ↗](https://gabercmatej.github.io/computer-vision-python/) · [Explore the source](cvportfolio/) · [Original coursework](coursework/) · [Run the experiments](#run-it-yourself) · [Implementation notes](PROVENANCE.md)**
 
 ![Computer Vision in Python visual portfolio](docs/screenshots/overview.png)
 
