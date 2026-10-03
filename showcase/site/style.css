@@ -4,3 +4,5 @@
 .task-gallery h4{font-size:19px;margin:18px 0 12px}.assignment-links{display:flex;flex-wrap:wrap;gap:18px;margin:12px 0 22px}
 .task-nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}.task-nav button{font:inherit;font-size:12px;padding:9px 12px;background:transparent;border:1px solid #c6d2c8;border-radius:5px;color:#172821;cursor:pointer;text-align:left}.task-nav button[aria-pressed="true"]{background:#172821;color:#fff;border-color:#172821}.task-gallery figure{margin:20px 0 0}.task-gallery figure img{width:100%;height:auto;display:block}.task-gallery figcaption{font-size:13px;color:#62736b;line-height:1.65;margin-top:14px}.task-gallery p{line-height:1.7;max-width:75ch}.companion-heading{font-size:19px;margin:20px 0}
 .command{flex-wrap:wrap;max-width:100%}.command code{white-space:normal;overflow-wrap:anywhere;min-width:0}
+
+.experiments{padding-block:28px 50px}.task-section + .task-section{margin-top:40px;padding-top:24px;border-top:1px solid var(--line)}

@@ -39,7 +39,7 @@ function render(id,updateHash=true){
  if(v==='compare'){const wrap=document.createElement('div');wrap.className='compare-control';wrap.style.cssText='display:flex;align-items:center;gap:14px;width:100%;margin-top:6px';const label=document.createElement('label');label.htmlFor='compare';label.textContent='Comparison position';const input=document.createElement('input');input.type='range';input.id='compare';input.min=0;input.max=100;input.value=50;input.addEventListener('input',()=>{document.querySelector('.over').style.clipPath=`inset(0 ${100-input.value}% 0 0)`;document.querySelector('.divider').style.left=input.value+'%';});wrap.append(label,input);$('controls').append(wrap);}});}
  if(id===5){buttons([['Reconstruction','full'],['Rotate 3D view','rotate']],'full',v=>{if(v==='full')plate(exp);else $('result-stage').replaceChildren(picture('house-rotation.gif','Rotating view of the 168 triangulated house points'));$('result-caption').textContent=v==='rotate'?'Saved animation of the computed 3D coordinates. Choose Reconstruction to stop the animation.':'Supplied 2D correspondences above; triangulated 3D points below.';});}
  if(id===6){const pair=document.createElement('div');pair.className='face-pair';for(const [file,alt]of[['face-original.png','Original'],['face-8.png','PCA reconstruction']]){const f=document.createElement('figure');f.append(picture(file,alt,''));const caption=document.createElement('figcaption');caption.textContent=alt;f.append(caption);pair.append(f);}$('result-stage').replaceChildren(pair);slider('PCA components',5,3,(i,out)=>{const k=data[6].components[i];pair.querySelectorAll('img')[1].src='assets/face-'+k+'.png';out.textContent=k+' / 63';$('result-caption').textContent=(data[6].variance_retained[i]*100).toFixed(2)+'% of training-set variance retained · reconstruction MSE '+data[6].reconstruction_mse[i].toFixed(2)+' on [0, 255] intensities. Training-image reconstruction.';});const a=document.createElement('a');a.href='assets/06-eigenfaces.png';a.textContent='View eigenfaces ↗';a.className='text-link';$('controls').append(a);}
- if(updateHash)history.replaceState(null,'','#study-'+id);
+ if(updateHash){history.replaceState(null,'','#study-'+id);window.scrollTo({top:0,behavior:'instant'});}
 }
 for(const exp of experiments){const b=document.createElement('button');b.type='button';b.dataset.id=exp.id;const n=document.createElement('span');n.textContent='0'+exp.id;const text=document.createElement('div');const title=document.createElement('strong');title.textContent=exp.short;const small=document.createElement('small');small.textContent='Assignment '+exp.id;text.append(title,small);b.append(n,text);b.addEventListener('click',()=>render(exp.id));$('experiment-nav').append(b);}
 function fromHash(){const match=location.hash.match(/^#study-([1-6])$/);if(match)render(Number(match[1]),false);}
@@ -51,12 +51,12 @@ function renderTasks(id) {
  const assignment=window.ASSIGNMENT_WALKTHROUGHS.find(a=>a.id===id);
  const base=repo+'/blob/main/assignment'+id+'/';
  $('original-link').href=base+assignment.code;$('pdf-link').href=base+assignment.pdf;$('walkthrough-link').href=base+'README.md';
- $('task-nav').replaceChildren();
- function select(task,index){
-  $('task-title').textContent=task.title;$('task-description').textContent=task.description;
-  $('task-image').src='assets/'+task.image;$('task-image').alt=task.title+' — regenerated Python output';$('task-caption').textContent=task.caption;
-  [...$('task-nav').children].forEach((button,i)=>button.setAttribute('aria-pressed',String(i===index)));
- }
- assignment.tasks.forEach((task,index)=>{const button=document.createElement('button');button.type='button';button.textContent=task.title;button.addEventListener('click',()=>select(task,index));$('task-nav').append(button);});
- select(assignment.tasks[0],0);
+ $('task-list').replaceChildren(...assignment.tasks.map(task=>{
+  const section=document.createElement('section');section.className='task-section';
+  const heading=document.createElement('h4');heading.textContent=task.title;
+  const description=document.createElement('p');description.textContent=task.description;
+  const figure=document.createElement('figure');const img=picture(task.image,task.title+' — regenerated Python output');
+  const caption=document.createElement('figcaption');caption.textContent=task.caption;
+  figure.append(img,caption);section.append(heading,description,figure);return section;
+ }));
 }
